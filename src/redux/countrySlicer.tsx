@@ -1,4 +1,3 @@
-import React from "react"
 import { countryAPI } from "../api/countryAPI"
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 

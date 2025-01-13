@@ -59,15 +59,26 @@ function App() {
               </span>
               <input type="text" className='text-[0.875rem] leading-5 py-5 w-full outline-none border-none ' />
             </div>
-            <div>
+            <div className='flex items-center justify-start gap-4'>
               <Select key={v4()} text="Filter by Region" items={["Africa", "America", "Asia", "Europe", "Oceania"]} type="region" handleClick={addFilter} />
               <Select key={v4()} text="Sorted By" items={["name", "population"]} type="sortBy" handleClick={addFilter} />
-
               <Select key={v4()} text="Order" items={["Asc", "Desc"]} type="order" handleClick={addFilter} />
-
             </div>
           </div>
+          <div className='flex flex-wrap items-center justify-between'>
+            {
+              filteredCountries.map((country: Country) => <div className='w-1/4 h-fit'>
+                <img src={country.flag} alt={country.name} className='w-full h-full object-cover aspect-video' />
+                <h2 className='font-extrabold text-[1.125rem] leading-6'>{country.name}</h2>
+                <div className='font-light text-[0.875rem] leading-4'>
+                  <span><strong>Population:</strong>{country.population}</span>
+                  <span><strong>Region:</strong>{country.region}</span>
+                  <span><strong>Capital:</strong>{country.capital}</span>
+                </div>
+              </div>)
 
+            }
+          </div>
         </main >
       </div >
     </>

@@ -98,7 +98,7 @@ const countrySlicer = createSlice({
                 const filteredCountries = filterData(state.countries, state.filter)
                 state.filteredCountries = filteredCountries
                 const paginationData = pagination(state, 1, 10)
-                state.pagination = paginationData.pagination
+                state.pagination = paginationData.pagination                
                 state.filteredCountries = paginationData.filteredCountries
             })
             .addCase(getCountry.rejected, (state: CountryState, action) => {

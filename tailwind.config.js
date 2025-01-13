@@ -9,7 +9,9 @@ module.exports = {
       center: true
     },
     extend: {
-      mb: { min: 0, max: "767px" }
+      screens: {
+        mb: { min: "0", max: "767px" }
+      }
     },
   },
   plugins: [],

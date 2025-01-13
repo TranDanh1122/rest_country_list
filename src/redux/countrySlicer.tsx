@@ -15,6 +15,7 @@ interface CountryState {
     loading: boolean,
     filter: Filter,
     pagination: {
+        items: Country[]
         current: number,
         totalPages: number,
     },
@@ -29,7 +30,7 @@ const filterData = (data: Country[], { search, sortBy, order, region }: Filter):
     }
     if (sortBy) {
         filterData.sort((a, b) => {
-            if (order == "asc") {
+            if (order.toLowerCase() == "asc") {
                 return a[sortBy] > b[sortBy] ? 1 : -1
             } else {
                 return a[sortBy] < b[sortBy] ? 1 : -1
@@ -37,17 +38,18 @@ const filterData = (data: Country[], { search, sortBy, order, region }: Filter):
         })
     }
     if (region) {
-        filterData.filter(country => country.region.toLowerCase() == region.toLowerCase())
+        filterData = filterData.filter(country => country.region.toLowerCase() == region.toLowerCase())
     }
     return filterData
 }
 const pagination = (data: CountryState, page: number, limit: number): CountryState => {
+
     const startCursor = (page - 1) * limit
     const endCursor = startCursor + limit
     const paginationData = data.filteredCountries.slice(startCursor, endCursor)
     data.pagination.current = page
     data.pagination.totalPages = Math.ceil(data.filteredCountries.length / limit)
-    data.filteredCountries = paginationData
+    data.pagination.items.push(...paginationData)
     return data
 }
 const countrySlicer = createSlice({
@@ -65,6 +67,7 @@ const countrySlicer = createSlice({
             limit: 10
         },
         pagination: {
+            items: [],
             current: 1,
             totalPages: 1,
         },
@@ -97,7 +100,7 @@ const countrySlicer = createSlice({
                 const filteredCountries = filterData(state.countries, state.filter)
                 state.filteredCountries = filteredCountries
                 const paginationData = pagination(state, 1, 10)
-                state.pagination = paginationData.pagination                
+                state.pagination = paginationData.pagination
                 state.filteredCountries = paginationData.filteredCountries
             })
             .addCase(getCountry.rejected, (state: CountryState, action) => {

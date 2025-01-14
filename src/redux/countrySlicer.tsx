@@ -78,6 +78,7 @@ const countrySlicer = createSlice({
             state.filter = { ...state.filter, ...action.payload }
             const filteredCountries = filterData(state.countries, state.filter)
             state.filteredCountries = filteredCountries
+            state.pagination.items = []
             const paginationData = pagination(state, 1, 10)
             state = paginationData
         },
